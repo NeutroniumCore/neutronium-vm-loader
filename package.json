@@ -1,0 +1,42 @@
+{
+  "name": "neutronium-vm-loader",
+  "version": "1.0.0",
+  "description": "parser for neutronium viewModel",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "test": "jest --no-cache"
+  },
+  "keywords": [
+    "neutronium",
+    "parser"
+  ],
+  "author": "David Desmaisons",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-jest": "^22.0.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "cross-env": "^5.1.1",
+    "jest": "^22.0.0",
+    "regenerator-runtime": "^0.11.1",
+    "webpack": "^3.10.0"
+  },
+  "dependencies": {
+    "circular-json": "^0.5.1"
+  },
+  "jest": {
+    "moduleFileExtensions": ["js","cjson"],
+    "moduleDirectories": ["node_modules"],
+    "transform": {
+      "\\.(cjson)$":"<rootDir>/test/infra/fileTransformer.js",
+      "^.+\\.js$": "babel-jest"
+    }
+  }
+}

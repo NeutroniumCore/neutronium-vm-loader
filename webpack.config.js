@@ -2,8 +2,10 @@ var path = require('path')
 var webpack = require('webpack')
 
 var output = {
-  path: path.resolve(__dirname, './lib'),
-  filename: 'index.js'
+  path: path.resolve(__dirname, 'lib'),
+  filename: 'index.js',
+  library: "neutroniumVmLoader",
+  libraryTarget: "commonjs2"
 };
 
 var webpackOptions = {

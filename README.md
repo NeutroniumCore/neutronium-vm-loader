@@ -15,7 +15,7 @@ import { createVM } from 'neutronium-vm-loader'
 
 const vm = createVM(rawVm);
 ```
-## Instalation
+## Installation
 
 ```
 npm install --save neutronium-vm-loader

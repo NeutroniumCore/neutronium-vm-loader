@@ -94,6 +94,66 @@ describe('when loading a large file', () => {
     });
 });
 
+describe('when reading version', () => {
+    const log = console.log;
+    beforeEach(() => {
+        console.log = jest.fn()
+    });
+
+    test('createVM with version 0 does not log anything', () => {
+        createVM('{"Window":{"window":55},"ViewModel":{"value":12}}')
+        expect(console.log).not.toBeCalled();
+    });
+
+    test('createVM with version 1 does not log anything', () => {
+        createVM('{"Window":{"window":55},"ViewModel":{"value":12},"version":1}')
+        expect(console.log).not.toBeCalled();
+    });
+
+    test('createVM with version 2 does log warning', () => {
+        createVM('{"Window":{"window":55},"ViewModel":{"value":12},"version":2}')
+        expect(console.log).toBeCalledWith("Please check neutronium-vue for last version compatible, the data format has been updated on Neutronium side.");
+    });
+
+    afterEach(() => {
+        console.log = log
+    });
+});
+
+describe('when reading invalid file', () => {
+    const log = console.log;
+    var vm;
+
+    beforeEach(() => {
+        console.log = jest.fn()
+        vm = createVM('fakeNEWS!!!!!!!')
+    });
+
+    test('ViewModel attribute is null', () => {
+        expect(vm.ViewModel).toBeNull();
+    });
+
+    test('Window attribute is null', () => {
+        expect(vm.Window).toBeNull();
+    });
+
+    test('version attribute is -1', () => {
+        expect(vm.version).toEqual(-1);
+    });
+
+    test('problem information should be logged', () => {
+        expect(console.log).toBeCalledWith("Error during parsing. Please check neutronium-vue for last version compatible with Neutronium.");
+    });
+
+    test('error should be logged', () => {
+        expect(console.log).toBeCalledWith("Error during parsing: SyntaxError: Expected 'l' instead of 'k' at 3");
+    });
+
+    afterEach(() => {
+        console.log = log
+    });
+});
+
 describe('when loading a version 1 file', () => {
     var vm;
     beforeAll(() => {

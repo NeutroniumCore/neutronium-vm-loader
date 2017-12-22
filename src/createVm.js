@@ -24,7 +24,15 @@ CircularJson.parser = {
 };
 
 function createVM(rawVm) {
-    return updateVm(CircularJson.parse(rawVm));
+    try {
+        const rawResult = CircularJson.parse(rawVm);
+        return updateVm(rawResult);
+    }
+    catch (e) {
+        console.log(`Error during parsing: ${e.name}: ${e.message} at ${e.at}`);
+        console.log("Error during parsing. Please check neutronium-vue for last version compatible with Neutronium.");
+        return { ViewModel: null, Window: null, version: -1 }
+    }
 }
 
 

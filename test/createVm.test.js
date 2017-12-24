@@ -1,7 +1,9 @@
 import { createVM } from '../src/createVm'
+import { Command } from '../src/command'
+
 import rawVm from './data/vm'
 import v1Vm from './data/vmv1'
-
+import v2Vm from './data/vmv2'
 
 test('createVM parses attributes', () => {
     const vm = createVM('{"value":23}')
@@ -65,8 +67,13 @@ describe('when reading version', () => {
         expect(console.log).not.toBeCalled();
     });
 
-    test('createVM with version 2 does log warning', () => {
+    test('createVM with version 2 does not log anything', () => {
         createVM('{"Window":{"window":55},"ViewModel":{"value":12},"version":2}')
+        expect(console.log).not.toBeCalled();
+    });
+
+    test('createVM with version 3 does log warning', () => {
+        createVM('{"Window":{"window":55},"ViewModel":{"value":12},"version":3}')
         expect(console.log).toBeCalledWith("Please check neutronium-vue for last version compatible, the data format has been updated on Neutronium side.");
     });
 
@@ -82,41 +89,15 @@ describe('when loading a large file', () => {
     });
 
     test('ViewModel attribute is valid', () => {
-        expect(vm.ViewModel).toBeDefined();
+        expect(vm.ViewModel).toBeTruthy();
     });
 
     test('Window attribute is valid', () => {
-        expect(vm.Window).toBeDefined();
+        expect(vm.Window).toBeTruthy();
     });
 
     test('version attribute is 0', () => {
         expect(vm.version).toEqual(0);
-    });
-});
-
-describe('when reading version', () => {
-    const log = console.log;
-    beforeEach(() => {
-        console.log = jest.fn()
-    });
-
-    test('createVM with version 0 does not log anything', () => {
-        createVM('{"Window":{"window":55},"ViewModel":{"value":12}}')
-        expect(console.log).not.toBeCalled();
-    });
-
-    test('createVM with version 1 does not log anything', () => {
-        createVM('{"Window":{"window":55},"ViewModel":{"value":12},"version":1}')
-        expect(console.log).not.toBeCalled();
-    });
-
-    test('createVM with version 2 does log warning', () => {
-        createVM('{"Window":{"window":55},"ViewModel":{"value":12},"version":2}')
-        expect(console.log).toBeCalledWith("Please check neutronium-vue for last version compatible, the data format has been updated on Neutronium side.");
-    });
-
-    afterEach(() => {
-        console.log = log
     });
 });
 
@@ -161,14 +142,47 @@ describe('when loading a version 1 file', () => {
     });
 
     test('ViewModel attribute is valid', () => {
+        expect(vm.ViewModel).toBeTruthy();
+    });
+
+    test('Window attribute is valid', () => {
+        expect(vm.Window).toBeTruthy();
+    });
+
+    test('version attribute is 1', () => {
+        expect(vm.version).toEqual(1);
+    });
+});
+
+
+describe('when loading a version 2 file', () => {
+    var vm;
+    beforeAll(() => {
+        vm = createVM(v2Vm)
+    });
+
+    test('ViewModel attribute is valid', () => {
         expect(vm.ViewModel).toBeDefined();
+    });
+
+    test('Commands are parsed to command', () => {
+        expect(vm.ViewModel.ChangeSkill).toBeInstanceOf(Command);
+        expect(vm.ViewModel.Command).toBeInstanceOf(Command);
+    });
+
+    test('Command are parsed - canExecute true', () => {
+        expect(vm.ViewModel.ChangeSkill).toEqual({ id: 0, CanExecuteCount: 1, CanExecuteValue: true });
+    });
+
+    test('Command are parsed - canExecute false', () => {
+        expect(vm.ViewModel.Command).toEqual({ id: 1, CanExecuteCount: 1, CanExecuteValue: false });
     });
 
     test('Window attribute is valid', () => {
         expect(vm.Window).toBeDefined();
     });
 
-    test('version attribute is 1', () => {
-        expect(vm.version).toEqual(1);
+    test('version attribute is 2', () => {
+        expect(vm.version).toEqual(2);
     });
 });

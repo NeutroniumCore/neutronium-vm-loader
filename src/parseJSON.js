@@ -1,6 +1,8 @@
 // Adapted from https://github.com/douglascrockford/JSON-js
 // Adapted from Crockford's JSON.parse (see https://github.com/douglascrockford/JSON-js)
 // This version adds support for NaN, -Infinity and Infinity.
+import { Command } from './command'
+
 var at,	 // The index of the current character
 ch,	 // The current character
 escapee = {
@@ -148,6 +150,14 @@ word = function () {
             check('t');
             check('y');
             return Infinity;
+        case 'c':
+            check('c');
+            check('m');
+            check('d');
+            check('(');
+            var executable = value();
+            check(')');
+            return new Command(executable);
     }
     error("Unexpected '" + ch + "'");
 },

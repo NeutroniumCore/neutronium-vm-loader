@@ -1,5 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
+const BabiliPlugin = require("babili-webpack-plugin")
 
 var output = {
   path: path.resolve(__dirname, 'lib'),
@@ -44,14 +45,7 @@ var webpackOptions = {
         NODE_ENV: '"production"'
       }
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      output: {
-        comments: false
-      },
-      compress: {
-        warnings: false
-      }
-    }),
+    new BabiliPlugin({}, { comments: false }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
     })

@@ -1,7 +1,10 @@
 {
   "presets": [
-    ["es2015", { "modules": false }],
-    "stage-2"
+    ["env", {
+      "targets": {
+        "chrome": "56"
+      }
+    }]
   ],
   "env": {
     "test": {

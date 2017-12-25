@@ -45,6 +45,7 @@ var webpackOptions = {
         NODE_ENV: '"production"'
       }
     }),
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new BabiliPlugin({}, { comments: false }),
     new webpack.LoaderOptionsPlugin({
       minimize: true

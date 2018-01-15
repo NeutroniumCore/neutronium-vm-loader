@@ -72,8 +72,8 @@ describe('when reading version', () => {
         expect(console.log).not.toBeCalled();
     });
 
-    test('createVM with version 3 does log warning', () => {
-        createVM('{"Window":{"window":55},"ViewModel":{"value":12},"version":3}')
+    test('createVM with version 4 does log warning', () => {
+        createVM('{"Window":{"window":55},"ViewModel":{"value":12},"version":4}')
         expect(console.log).toBeCalledWith("Please check neutronium-vue for last version compatible, the data format has been updated on Neutronium side.");
     });
 

@@ -1,5 +1,6 @@
 
 import { parser } from '../src/parseJSON'
+import { test as dataDrivenTest, given } from 'sazerac'
 
 const jsonString = '{    "index": 340, "specialString":"\\u2028",    "isActive": false,"isInactive": true,    "balance": 3405.78,    "picture": "http://placehold.it/32x32",    "age": 40,    "name": "Tillman Baxter",    "gender": null,    "registered": "2015-06-27T09:28:31 +03:00","number":19.23e-3,"number2":1.23e+5,"number3":1.1e1,    "latitude": -59.467591,    "longitude": -69.251054,    "tags": [      "fugiat"    ],    "friends": [      {        "name": "Vicky"      },      {        "name": "Keri"      },      {        "name": "Hampton"      }    ]  }';
 
@@ -38,7 +39,7 @@ describe('when parsing a JSON', () => {
         expect(object.number2).toBe(1.23e+5);
     });
 
-    test("it parses number, exp implicite", () => {
+    test("it parses number, exp implicit", () => {
         expect(object.number3).toBe(1.1e+1);
     });
 
@@ -61,3 +62,8 @@ test("parser throw on unexpected", () => {
     const parse = () => parser('{"key":unexpected}');
     expect(parse).toThrow("Unexpected 'u'");
 });
+
+dataDrivenTest(parser, () => {
+    given('{"dateTime":d("2019-03-19T01:08:28.2300482")}').expect({dateTime: new Date("2019-03-19T01:08:28.2300482")})
+    given('{"dt":d("2020-04-23T05:18:58")}').expect({dt: new Date("2020-04-23T05:18:58")})
+})

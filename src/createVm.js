@@ -1,7 +1,7 @@
 import CircularJson from 'circular-json'
 import { parser } from './parseJSON'
 
-const currentVersionCompatible = 2;
+const currentVersionCompatible = 3;
 
 function updateVm(vm) {
     var window = vm.__window__

@@ -158,6 +158,12 @@ word = function () {
             var executable = value();
             check(')');
             return new Command(executable);
+        case 'd':
+            check('d');
+            check('(');
+            var parameter = value();
+            check(')');
+            return new Date(parameter);
     }
     error("Unexpected '" + ch + "'");
 },

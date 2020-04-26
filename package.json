@@ -1,6 +1,6 @@
 {
   "name": "neutronium-vm-loader",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "parser for neutronium viewModel",
   "main": "lib/index.js",
   "scripts": {

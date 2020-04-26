@@ -49,6 +49,14 @@ describe('when calling Execute', () => {
         expect(listener).toHaveBeenCalledWith(cmd.id, [1, 2, 3, 'argument']);
     });
 
+    test('listener can change the return value of Execute', () => {
+      const expectedValue = 6880;
+      Command.listen(() => expectedValue);
+      const cmd = new Command(false);
+      const result = cmd.Execute(1, 2, 3, 'argument');
+      expect(result).toBe(expectedValue);
+    });
+
     test('listener is not called when calling unListen', () => {
         Command.unListen(listener)
         const cmd = new Command(false);

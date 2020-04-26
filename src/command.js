@@ -18,7 +18,7 @@ Command.unListen = function (listener) {
 Command.prototype.Execute = function () {
     const args = [...arguments]
     console.log('executing', this.id, args)
-    listeners.forEach(l => l(this.id, args))
+    return listeners.map(l => l(this.id, args)).reduce((acc,value) => (acc!=undefined) ? acc : value , undefined);
 }
 
 Command.prototype.CanExecute = function () {
